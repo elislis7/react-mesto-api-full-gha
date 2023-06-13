@@ -27,7 +27,7 @@ app.use((req, res) => {
   res.status(404).send({ message: 'Страница  по этому адресу не найдена' });
 });
 
-mongoose.connect(/* DB_CONNECT вместо */ 'mongodb://127.0.0.1/mestodb');
+mongoose.connect(/* DB_CONNECT вместо */ 'mongodb://127.0.0.1:27017/mestodb');
 
 app.listen(/* PORT вместо */ 3000, () => {
   console.log('Server is running on port 3000');
