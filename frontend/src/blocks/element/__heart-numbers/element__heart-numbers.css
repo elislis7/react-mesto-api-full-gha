@@ -1,0 +1,12 @@
+.element__heart-numbers {
+  padding: 0;
+  padding-top: 3px;
+  margin: 0;
+  color: #000;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+}

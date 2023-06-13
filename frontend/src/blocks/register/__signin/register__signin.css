@@ -1,0 +1,13 @@
+.register__signin {
+  margin: 0;
+  padding: 0 0 80px;
+  box-sizing: border-box;
+  height: 17px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .register__signin {
+    padding: 0;
+    margin-bottom: 40px;
+  }
+}

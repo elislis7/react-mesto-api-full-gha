@@ -1,0 +1,20 @@
+.popup__input-error_visible {
+	display: block;
+	opacity: 1;
+	border-top: 1px solid red;
+	color: red;
+	max-width: 358px;
+  width: 100%;
+  margin: 0 36px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  border: none;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .popup__input-error_visible {
+    width: 238px;
+  }
+}

@@ -1,0 +1,13 @@
+.popup__success_type_fail {
+  background-image: url(../../../../images/rejected.svg);
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  margin-top: 60px;
+}
+
+@media screen and (max-width: 768px) {
+  .popup__success_type_fail {
+    margin-top: 50px;
+  }
+}

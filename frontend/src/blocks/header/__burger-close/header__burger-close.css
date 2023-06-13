@@ -1,0 +1,16 @@
+.header__burger-close {
+  background-image: url(../../../images/closeIconBurgerMenu.svg);
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+}
+
+.header__burger-close:hover {
+  transition-property: opacity;
+  transition-duration: 1s;
+  opacity: 0.6;
+  cursor: pointer;
+}

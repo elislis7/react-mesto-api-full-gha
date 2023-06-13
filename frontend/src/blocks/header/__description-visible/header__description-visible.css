@@ -1,0 +1,9 @@
+.header__description-visible {
+  display: flex;
+}
+
+@media screen and (max-width: 768px) {
+  .header__description-visible {
+    display: none;
+  }
+}

@@ -1,0 +1,11 @@
+.login {
+  box-sizing: border-box;
+  max-width: 358px;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .login {
+    max-width: 260px;
+  }
+}
