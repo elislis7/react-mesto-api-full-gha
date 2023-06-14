@@ -11,6 +11,6 @@
 
 IP-адрес 158.160.72.249
 
-Frontend https://...
+Frontend https://elislis.nomoredomains.rocks
 
-Backend https://...
+Backend https://api.elislis.nomoredomains.rocks
