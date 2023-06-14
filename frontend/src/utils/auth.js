@@ -1,4 +1,6 @@
-const BASE_URL = 'https://auth.nomoreparties.co';
+import { token } from './api';
+
+const BASE_URL = 'https://api.elislis.nomoredomains.rocks';
 
 class Auth {
   constructor(baseURL) {
@@ -23,7 +25,7 @@ class Auth {
       headers: jwt
         ? {
           ...headers,
-          'Authorization': `Bearer ${jwt}`
+          'Authorization': `Bearer ${token}`
         }
         : headers
     }

@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const cors = require('cors');
 const { login, createUser } = require('./controllers/users');
 const cards = require('./routes/cards');
 const users = require('./routes/users');
@@ -10,7 +11,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { validationCreateUser, validationLogin } = require('./middlewares/validations');
 
 const app = express();
-
+app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
@@ -23,7 +24,7 @@ app.use(auth);
 app.use(users);
 app.use(cards);
 
-app.use(errorLogger); // подключаем логгер ошибок, только после всех обработчиков роутов и до обработчиков ошибок
+app.use(errorLogger);
 
 app.use((req, res) => {
   res.status(404).send({ message: 'Страница  по этому адресу не найдена' });

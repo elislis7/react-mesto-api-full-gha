@@ -15,7 +15,7 @@ import InfoTooltip from "./InfoTooltip";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import ImagePopup from "./ImagePopup";
 
-import api from "../utils/api";
+import { token, api } from "../utils/api";
 import { authApi } from "../utils/auth";
 
 import ProtectedRoute from "./ProtectedRoute";
@@ -216,10 +216,9 @@ function App() {
   }
 
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
+    if (token) {
       authApi
-        .checkToken(jwt)
+        .checkToken(token)
         .then((res) => {
           if (res) {
             setIsLoggedIn(true);
@@ -232,7 +231,7 @@ function App() {
   }, [navigate, isLoggedIn]);
 
   function handleSignOut() {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem(token);
     setHeaderEmail("");
     setIsLoggedIn(false);
     navigate("/sign-in");
