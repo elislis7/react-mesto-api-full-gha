@@ -4,14 +4,14 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const { users, login, createUser } = require('./controllers/users');
 const cards = require('./routes/cards');
-const auth = require('./middlewares/auth');
+const { auth } = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { validationCreateUser, validationLogin } = require('./middlewares/validations');
 
 const app = express();
 
-app.use(express.json());
 app.use(helmet());
+app.use(express.json());
 
 app.use(requestLogger); // подключаем логгер запросов, только затем идут все обработчики роутов
 
