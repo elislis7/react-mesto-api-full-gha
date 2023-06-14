@@ -1,5 +1,3 @@
-import { token } from './api';
-
 const BASE_URL = 'https://api.elislis.nomoredomains.rocks/';
 
 class Auth {

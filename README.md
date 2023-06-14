@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.72.249
+IP 158.160.72.249
 
 Frontend https://elislis.nomoredomains.rocks
 

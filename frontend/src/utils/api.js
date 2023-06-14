@@ -1,7 +1,6 @@
 class Api {
   constructor(data) {
     this._url = data.url;
-    this._headers = data.headers;
   }
 
   _handleResponse(res) {
@@ -12,10 +11,16 @@ class Api {
       }
   }
 
-  _request(endpoint, method, body) {
+  _request(endpoint, method, body, jwt) {
+    const token = localStorage.getItem("jwt");
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
     const fetchInit = {
       method: method,
-      headers: this._headers
+      headers: headers
     }
     return fetch(`${this._url}/${endpoint}`,
     body 
@@ -28,42 +33,41 @@ class Api {
   }
 
   getUserInfo() {
+    
     return this._request('users/me','GET')
   }
 
   getCards() {
+    
     return this._request('cards', 'GET')
   }
 
   editProfile(data) {
+    
     return this._request('users/me', 'PATCH', data)
   }
 
   editProfileAvatar(avatar) {
+    
     return this._request('users/me/avatar', 'PATCH', avatar) 
   }
 
   createCard(card) {
+    
     return this._request('cards', 'POST', card)
   }
 
   deleteCardApi(id) {
+    
     return this._request(`cards/${id}`, 'DELETE')
   }
 
   updateLikes(cardId, isLiked) {
+    
     return this._request(`cards/${cardId}/likes`, isLiked ? 'DELETE' : 'PUT')
   }
 }
 
-export const token = localStorage.getItem('jwt');
-
-const api = new Api({
-  url:'https://api.elislis.nomoredomains.rocks/',
-  headers: {
-    authorization: `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  }
-});
+const api = new Api({ url:'https://api.elislis.nomoredomains.rocks/' });
 
 export default api;

@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
+const { JWT_SECRET, NODE_ENV } = process.env;
+
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
@@ -70,7 +72,8 @@ const createUser = (req, res, next) => {
         return next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
       }
       return next(err);
-    });
+    })
+    .catch(next);
 };
 
 // редактирует инфо пользователя
@@ -126,7 +129,7 @@ const login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, /* SECRET_KEY вместо JWT-token */ 'JWT-token', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'JWT-token', { expiresIn: '7d' });
       res.send({ token });
     })
     .catch(next);
