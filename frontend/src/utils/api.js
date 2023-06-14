@@ -59,7 +59,7 @@ class Api {
 export const token = localStorage.getItem('jwt');
 
 const api = new Api({
-  url:'https://api.elislis.nomoredomains.rocks',
+  url:'https://api.elislis.nomoredomains.rocks/',
   headers: {
     authorization: `Bearer ${token}`,
     'Content-Type': 'application/json'
