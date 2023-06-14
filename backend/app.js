@@ -2,7 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-const { users, login, createUser } = require('./routes/users');
+const { users, login, createUser } = require('./controllers/users');
 const cards = require('./routes/cards');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -14,7 +14,7 @@ app.use(helmet());
 
 app.use(requestLogger); // подключаем логгер запросов, только затем идут все обработчики роутов
 
-app.post('/signup', createUser);
+app.post('/signup', validationCreateUser, createUser); /* ОШИБКА ЗДЕСЬ, ТАК КАК В КОДЕ НИГДЕ НЕ ИСПОЛЬЗУЕТСЯ КРИЭЙТЮЗЕР */
 app.post('/signin', login);
 
 app.use(auth);
