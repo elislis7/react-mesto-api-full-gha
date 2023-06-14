@@ -27,6 +27,4 @@ const auth = (req, res, next) => {
   next(); // пропускаем запрос дальше
 };
 
-module.exports = {
-  auth,
-};
+module.exports = auth;

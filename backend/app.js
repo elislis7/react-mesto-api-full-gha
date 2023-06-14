@@ -2,9 +2,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-const { users, login, createUser } = require('./controllers/users');
+const { login, createUser } = require('./controllers/users');
 const cards = require('./routes/cards');
-const { auth } = require('./middlewares/auth');
+const users = require('./routes/users');
+const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { validationCreateUser, validationLogin } = require('./middlewares/validations');
 
