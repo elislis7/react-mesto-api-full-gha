@@ -50,9 +50,9 @@ class Api {
     return this._request('cards', 'POST', card)
   }
 
-  deleteCardApi(id) {
+  deleteCardApi(cardId) {
     const token = localStorage.getItem("jwt");
-    return this._request(`cards/${id}`, 'DELETE')
+    return this._request(`cards/${cardId}`, 'DELETE')
   }
 
   updateLikes(cardId, isLiked) {
