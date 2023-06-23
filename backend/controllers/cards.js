@@ -34,7 +34,7 @@ const removeCard = (req, res, next) => {
     return;
   }
 
-  Card.findByIdAndRemove({ _id: cardId })
+  Card.findById(cardId)
     .then((card) => {
       if (!card) {
         return next(new NotFoundError('Переданы некорректные данные'));
