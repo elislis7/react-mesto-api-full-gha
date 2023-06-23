@@ -4,8 +4,7 @@ const { celebrate, Joi } = require('celebrate');
 const BadRequestError = require('../errors/BadRequestError');
 
 const validationUrl = (url) => {
-  const validate = isURL(url);
-  if (validate) {
+  if (isURL(url)) {
     return url;
   }
   throw new BadRequestError('Некорректный URL адрес');
@@ -24,8 +23,8 @@ module.exports.validationCreateUser = celebrate({
     .keys({
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
-      email: Joi.string().required().email(),
       avatar: Joi.string().custom(validationUrl),
+      email: Joi.string().required().email(),
       password: Joi.string().required(),
     }),
 });

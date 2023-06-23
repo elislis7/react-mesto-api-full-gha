@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
 const cors = require('cors');
 const { login, createUser } = require('./controllers/users');
 const cards = require('./routes/cards');
@@ -37,6 +38,7 @@ app.use(users);
 app.use(cards);
 
 app.use(errorLogger);
+app.use(errors());
 
 app.use((req, res) => {
   res.status(404).send({ message: 'Страница  по этому адресу не найдена' });

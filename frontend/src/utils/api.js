@@ -1,7 +1,6 @@
 class Api {
   constructor(data) {
     this._url = data.url;
-    this._headers = data.headers;
   }
 
   _handleResponse(res) {
@@ -12,14 +11,9 @@ class Api {
       }
   }
 
-  setToken(token) {
-    this._headers.Authorization = `Bearer ${token}`;
-  }
-
   _request(endpoint, method, body) {
     const fetchInit = {
       method: method,
-      headers: this._headers
     }
     return fetch(`${this._url}/${endpoint}`,
     body 
@@ -32,38 +26,52 @@ class Api {
   }
 
   getUserInfo() {
-    return this._request('users/me','GET')
+    const token = localStorage.getItem("jwt");
+    return this._request('users/me', {
+    method: 'GET',
+    headers: {
+      "content-type": "application/json",
+      "authorization": `Bearer ${token}`,
+    }
+    })
   }
 
   getCards() {
+    const token = localStorage.getItem("jwt");
     return this._request('cards', 'GET')
   }
 
   editProfile(data) {
+    const token = localStorage.getItem("jwt");
     return this._request('users/me', 'PATCH', data)
   }
 
   editProfileAvatar(avatar) {
+    const token = localStorage.getItem("jwt");
     return this._request('users/me/avatar', 'PATCH', avatar) 
   }
 
   createCard(card) {
+    const token = localStorage.getItem("jwt");
     return this._request('cards', 'POST', card)
   }
 
   deleteCardApi(id) {
+    const token = localStorage.getItem("jwt");
     return this._request(`cards/${id}`, 'DELETE')
   }
 
   updateLikes(cardId, isLiked) {
+    const token = localStorage.getItem("jwt");
     return this._request(`cards/${cardId}/likes`, isLiked ? 'DELETE' : 'PUT')
   }
 }
 
+const jwtToken = localStorage.getItem("jwt");
 const api = new Api({ url:'https://api.elislis.nomoredomains.rocks/',
   headers: {
     "Content-Type": "application/json",
-    Authorization: "",
+    authorization: `Bearer ${jwtToken}`,
   }
 });
 
