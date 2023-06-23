@@ -36,16 +36,11 @@ const getUser = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь не найден');
-      }
-      return res.status(200).send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(BadRequestError('Переданы некорректные данные'));
       } else {
-        next(err);
+        return res.send(user);
       }
-    });
+    })
+    .catch(next);
 };
 
 const createUser = (req, res, next) => {

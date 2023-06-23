@@ -27,13 +27,7 @@ class Api {
 
   getUserInfo() {
     const token = localStorage.getItem("jwt");
-    return this._request('users/me', {
-    method: 'GET',
-    headers: {
-      "content-type": "application/json",
-      "authorization": `Bearer ${token}`,
-    }
-    })
+    return this._request('users/me','GET')
   }
 
   getCards() {
