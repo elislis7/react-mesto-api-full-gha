@@ -16,17 +16,18 @@ const {
 } = process.env;
 
 const app = express();
-app.use(cors());
-app.use(helmet());
-app.use(express.json());
-
-app.use(requestLogger); // подключаем логгер запросов, только затем идут все обработчики роутов
 
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
+
+app.use(cors());
+app.use(helmet());
+app.use(express.json());
+
+app.use(requestLogger); // подключаем логгер запросов, только затем идут все обработчики роутов
 
 app.post('/signup', validationCreateUser, createUser);
 app.post('/signin', validationLogin, login);

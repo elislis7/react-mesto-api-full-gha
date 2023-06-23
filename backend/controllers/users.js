@@ -1,22 +1,19 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/user');
-
-const { JWT_SECRET, NODE_ENV } = process.env;
 
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
 
-// возвращает всех пользователей
+const { JWT_SECRET, NODE_ENV } = process.env;
+
 const getAllUsers = (req, res, next) => {
   User.find({})
     .then((data) => res.send({ data }))
     .catch(next);
 };
 
-// возвращает пользователя по id
 const getUsersByID = (req, res, next) => {
   User.findById(req.params.userId)
     .orFail()
@@ -51,32 +48,36 @@ const getUser = (req, res, next) => {
     });
 };
 
-// создаёт пользователя
 const createUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
 
   bcrypt.hash(password, 10)
-    .then((hash) => User.create({
-      name, about, avatar, email, password: hash,
-    }))
-    .then(() => res.status(201).send({
-      name, about, avatar, email,
-    }))
-    .catch((err) => {
-      if (err.code === 11000) {
-        return next(new ConflictError('Пользователь с таким email уже существует'));
-      }
-      if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
-      }
-      return next(err);
+    .then((hash) => {
+      User.create({
+        name, about, avatar, email, password: hash,
+      })
+        .then(() => {
+          res.status(201).send({
+            data: {
+              name, about, avatar, email,
+            },
+          });
+        })
+        .catch((err) => {
+          if (err.code === 11000) {
+            return next(new ConflictError('Пользователь с таким email уже существует'));
+          }
+          if (err.name === 'ValidationError') {
+            return next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+          }
+          return next(err);
+        });
     })
     .catch(next);
 };
 
-// редактирует инфо пользователя
 const updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
 
@@ -88,19 +89,21 @@ const updateUserInfo = (req, res, next) => {
       runValidators: true,
     },
   )
-    .then((user) => res.send(user))
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Пользователь с указанным _id не найден');
+      } else {
+        res.send(user);
+      }
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
-      }
-      if (err.name === 'CastError') {
-        throw new NotFoundError('Пользователь с указанным _id не найден');
       }
       return (next);
     });
 };
 
-// редактирует аватар пользователяc
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
@@ -112,13 +115,16 @@ const updateUserAvatar = (req, res, next) => {
       runValidators: true,
     },
   )
-    .then((user) => res.send(user))
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Пользователь с указанным _id не найден');
+      } else {
+        res.send(user);
+      }
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
-      }
-      if (err.name === 'CastError') {
-        throw new NotFoundError('Пользователь с указанным _id не найден');
       }
       return (next);
     });
