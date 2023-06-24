@@ -5,8 +5,7 @@ const helmet = require('helmet');
 const { errors } = require('celebrate');
 const cors = require('cors');
 const { login, createUser } = require('./controllers/users');
-const cards = require('./routes/cards');
-const users = require('./routes/users');
+const router = require('./routes/router');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { validationCreateUser, validationLogin } = require('./middlewares/validations');
@@ -35,8 +34,7 @@ app.post('/signup', validationCreateUser, createUser);
 app.post('/signin', validationLogin, login);
 
 app.use(auth);
-app.use('/users', users);
-app.use('/cards', cards);
+app.use(router);
 
 app.use(errors());
 app.use(handelError);

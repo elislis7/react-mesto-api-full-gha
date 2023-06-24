@@ -73,7 +73,7 @@ const updateUser = (req, res, next) => {
       runValidators: true,
     },
   )
-    .then((user) => res.send(user))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         return next(new NotFoundError('Пользователь по указанному _id не найден'));
@@ -85,58 +85,6 @@ const updateUser = (req, res, next) => {
 const updateUserInfo = (req, res, next) => updateUser(req.user._id, res, next);
 
 const updateUserAvatar = (req, res, next) => updateUser(req.user._id, res, next);
-
-/* const updateUserInfo = (req, res, next) => {
-  const { name, about } = req.body;
-
-  User.findByIdAndUpdate(
-    req.user._id,
-    { name, about },
-    {
-      new: true,
-      runValidators: true,
-    },
-  )
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь с указанным _id не найден');
-      } else {
-        res.send(user);
-      }
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
-      }
-      return (next);
-    });
-};
-
-const updateUserAvatar = (req, res, next) => {
-  const { avatar } = req.body;
-
-  User.findByIdAndUpdate(
-    req.user._id,
-    { avatar },
-    {
-      new: true,
-      runValidators: true,
-    },
-  )
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь с указанным _id не найден');
-      } else {
-        res.send(user);
-      }
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
-      }
-      return (next);
-    });
-}; */
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
