@@ -35,8 +35,8 @@ app.post('/signup', validationCreateUser, createUser);
 app.post('/signin', validationLogin, login);
 
 app.use(auth);
-app.use('/users', cards);
-app.use('/cards', users);
+app.use('/users', users);
+app.use('/cards', cards);
 
 app.use(handelError);
 
