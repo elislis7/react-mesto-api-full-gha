@@ -10,8 +10,7 @@ const users = require('./routes/users');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { validationCreateUser, validationLogin } = require('./middlewares/validations');
-
-const { handelError } = require('./middlewares/handelErrors');
+const handelError = require('./middlewares/handelError');
 
 const {
   DB_CONNECT = 'mongodb://127.0.0.1:27017/mestodb',
