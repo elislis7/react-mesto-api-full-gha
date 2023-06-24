@@ -38,10 +38,10 @@ app.use(auth);
 app.use('/users', users);
 app.use('/cards', cards);
 
+app.use(errors());
 app.use(handelError);
 
 app.use(errorLogger);
-app.use(errors());
 
 mongoose.connect(DB_CONNECT);
 
