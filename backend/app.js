@@ -11,7 +11,7 @@ const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { validationCreateUser, validationLogin } = require('./middlewares/validations');
 
-const NotFoundError = require('./errors/NotFoundError')
+const { handelError } = require('./middlewares/handelErrors');
 
 const {
   DB_CONNECT = 'mongodb://127.0.0.1:27017/mestodb',
@@ -36,12 +36,10 @@ app.post('/signup', validationCreateUser, createUser);
 app.post('/signin', validationLogin, login);
 
 app.use(auth);
-app.use(users);
-app.use(cards);
+app.use('/users', cards);
+app.use('/cards', users);
 
-app.use((req, res, next) => {
-  next(new NotFoundError('Страница по этому адресу не найдена'));
-});
+app.use(handelError);
 
 app.use(errorLogger);
 app.use(errors());
