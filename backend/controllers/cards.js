@@ -52,11 +52,6 @@ const likeCard = (req, res, next) => {
   const { cardId } = req.params;
   const userId = req.user._id;
 
-  if (!isValidObjectId(userId) || !isValidObjectId(cardId)) {
-    next(new BadRequestError('Переданы некорректные данные для постановки лайка'));
-    return;
-  }
-
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: userId } },
@@ -79,11 +74,6 @@ const likeCard = (req, res, next) => {
 const removeLikeCard = (req, res, next) => {
   const { cardId } = req.params;
   const userId = req.user._id;
-
-  if (!isValidObjectId(userId) || !isValidObjectId(cardId)) {
-    next(new BadRequestError('Переданы некорректные данные для удаления лайка'));
-    return;
-  }
 
   Card.findByIdAndUpdate(
     cardId,

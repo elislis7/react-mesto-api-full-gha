@@ -11,6 +11,8 @@ const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { validationCreateUser, validationLogin } = require('./middlewares/validations');
 
+const NotFoundError = require('./errors/NotFoundError')
+
 const {
   DB_CONNECT = 'mongodb://127.0.0.1:27017/mestodb',
   PORT = 3000,
@@ -37,12 +39,12 @@ app.use(auth);
 app.use(users);
 app.use(cards);
 
+app.use((req, res, next) => {
+  next(new NotFoundError('Страница по этому адресу не найдена'));
+});
+
 app.use(errorLogger);
 app.use(errors());
-
-app.use((req, res) => {
-  res.status(404).send({ message: 'Страница  по этому адресу не найдена' });
-});
 
 mongoose.connect(DB_CONNECT);
 

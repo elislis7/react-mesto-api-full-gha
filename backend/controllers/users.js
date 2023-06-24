@@ -14,40 +14,22 @@ const getAllUsers = (req, res, next) => {
     .catch(next);
 };
 
-const getUsersByID = (req, res, next) => {
-  User.findById(req.params.userId)
+// общая функция по поиску пользователя
+const findUser = (id, res, next) => {
+  User.findById(id)
     .orFail()
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь по указанному _id не найден');
-      }
-      res.send({ user });
-    })
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        return next(new BadRequestError('Переданы некорректный _id пользователя'));
+      if (err.name === 'DocumentNotFoundError') {
+        return next(new NotFoundError('Пользователь по указанному _id не найден'));
       }
       return next(err);
     });
 };
 
-const getUser = (req, res, next) => {
-  User.findById(req.params._id)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь не найден');
-      } else {
-        return res.status(200).send(user);
-      }
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(BadRequestError('Переданы некорректные данные'));
-      } else {
-        next(err);
-      }
-    });
-};
+const getUser = (req, res, next) => findUser(req.params._id, res, next);
+
+const getUsersByID = (req, res, next) => findUser(req.params.userId, res, next);
 
 const createUser = (req, res, next) => {
   const {
@@ -79,7 +61,32 @@ const createUser = (req, res, next) => {
     .catch(next);
 };
 
-const updateUserInfo = (req, res, next) => {
+const updateUser = (req, res, next) => {
+  const { name, about, avatar } = req.body;
+
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, about },
+    { avatar },
+    {
+      new: true,
+      runValidators: true,
+    },
+  )
+    .then((user) => res.send(user))
+    .catch((err) => {
+      if (err.name === 'DocumentNotFoundError') {
+        return next(new NotFoundError('Пользователь по указанному _id не найден'));
+      }
+      return next(err);
+    });
+};
+
+const updateUserInfo = (req, res, next) => updateUser(req.user._id, res, next);
+
+const updateUserAvatar = (req, res, next) => updateUser(req.user._id, res, next);
+
+/* const updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(
@@ -129,7 +136,7 @@ const updateUserAvatar = (req, res, next) => {
       }
       return (next);
     });
-};
+}; */
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
