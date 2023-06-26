@@ -36,10 +36,10 @@ app.post('/signin', validationLogin, login);
 app.use(auth);
 app.use(router);
 
+app.use(errorLogger);
+
 app.use(errors());
 app.use(handelError);
-
-app.use(errorLogger);
 
 mongoose.connect(DB_CONNECT);
 

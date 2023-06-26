@@ -66,8 +66,7 @@ const updateUser = (req, res, next) => {
 
   User.findByIdAndUpdate(
     req.user._id,
-    { name, about },
-    { avatar },
+    { name, about, avatar },
     {
       new: true,
       runValidators: true,
@@ -82,9 +81,9 @@ const updateUser = (req, res, next) => {
     });
 };
 
-const updateUserInfo = (req, res, next) => updateUser(req.user._id, res, next);
+const updateUserInfo = (req, res, next) => updateUser(req, res, next);
 
-const updateUserAvatar = (req, res, next) => updateUser(req.user._id, res, next);
+const updateUserAvatar = (req, res, next) => updateUser(req, res, next);
 
 const login = (req, res, next) => {
   const { email, password } = req.body;

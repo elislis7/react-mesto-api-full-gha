@@ -48,13 +48,13 @@ const removeCard = (req, res, next) => {
     .catch(next);
 };
 
-const likeCard = (req, res, next) => {
+// общая функция обновления данных карточки
+const updateCardLike = (req, res, next, updateData) => {
   const { cardId } = req.params;
-  const userId = req.user._id;
 
   Card.findByIdAndUpdate(
     cardId,
-    { $addToSet: { likes: userId } },
+    updateData,
     { new: true },
   )
     .then((card) => {
@@ -71,33 +71,20 @@ const likeCard = (req, res, next) => {
     });
 };
 
-const removeLikeCard = (req, res, next) => {
-  const { cardId } = req.params;
-  const userId = req.user._id;
+const addLikeCard = (req, res, next) => {
+  const updateData = { $addToSet: { likes: req.user._id } };
+  updateCardLike(req, res, next, updateData);
+};
 
-  Card.findByIdAndUpdate(
-    cardId,
-    { $pull: { likes: userId } },
-    { new: true },
-  )
-    .then((card) => {
-      if (!card) {
-        return next(new NotFoundError('Карточка с указанным _id не найдена'));
-      }
-      return res.send(card.likes);
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return next(new BadRequestError('Переданы некорректные данные для снятия лайка.'));
-      }
-      return next(err);
-    });
+const removeLikeCard = (req, res, next) => {
+  const updateData = { $pull: { likes: req.user._id } };
+  updateCardLike(req, res, next, updateData);
 };
 
 module.exports = {
   getAllCards,
   createCard,
   removeCard,
-  likeCard,
+  addLikeCard,
   removeLikeCard,
 };
