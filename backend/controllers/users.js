@@ -62,16 +62,9 @@ const createUser = (req, res, next) => {
 };
 
 const updateUser = (req, res, next, updateData) => {
-  const { name, about, avatar } = req.body;
-
   User.findByIdAndUpdate(
     req.user._id,
     updateData,
-    {
-      name,
-      about,
-      avatar,
-    },
     {
       new: true,
       runValidators: true,
