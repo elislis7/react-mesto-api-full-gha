@@ -61,12 +61,17 @@ const createUser = (req, res, next) => {
     .catch(next);
 };
 
-const updateUser = (req, res, next) => {
+const updateUser = (req, res, next, updateData) => {
   const { name, about, avatar } = req.body;
 
   User.findByIdAndUpdate(
     req.user._id,
-    { name, about, avatar },
+    updateData,
+    {
+      name,
+      about,
+      avatar,
+    },
     {
       new: true,
       runValidators: true,
@@ -81,9 +86,17 @@ const updateUser = (req, res, next) => {
     });
 };
 
-const updateUserInfo = (req, res, next) => updateUser(req, res, next);
+const updateUserInfo = (req, res, next) => {
+  const { name, about } = req.body;
+  const updateData = { name, about };
+  updateUser(req, res, next, updateData);
+};
 
-const updateUserAvatar = (req, res, next) => updateUser(req, res, next);
+const updateUserAvatar = (req, res, next) => {
+  const { avatar } = req.body;
+  const updateData = { avatar };
+  updateUser(req, res, next, updateData);
+};
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
